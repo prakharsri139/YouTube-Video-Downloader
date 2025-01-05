@@ -1,0 +1,494 @@
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>YouTube Downloader</title>
+    <style>
+        /* General Styles */
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background: url('https://upload.wikimedia.org/wikipedia/commons/thumb/4/42/YouTube_icon_%282013-2017%29.png/512px-YouTube_icon_%282013-2017%29.png') no-repeat center center fixed;
+            background-size: cover;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 2.5rem;
+            color: white;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.6);
+        }
+
+        form {
+            background: rgba(255, 255, 255, 0.9);
+            padding: 20px 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            width: 100%;
+            max-width: 400px;
+        }
+
+        label {
+            font-size: 1rem;
+            color: #333;
+            margin-bottom: 8px;
+            display: inline-block;
+        }
+
+        input[type="text"] {
+            width: calc(100% - 20px);
+            padding: 10px;
+            font-size: 1rem;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+
+        input[type="submit"] {
+            background-color: #ff0000;
+            color: white;
+            font-size: 1rem;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 100%;
+        }
+        input[type="submit"]:hover {
+            background-color: #cc0000;
+        }
+        .video-preview {
+            margin-top: 20px;
+            display: none;
+            text-align: center;
+        }
+        .video-preview img {
+            max-width: 100%;
+            border-radius: 10px;
+        }
+        .video-preview p {
+            margin: 10px 0;
+        }
+
+        /* input[type="submit"]:hover {
+            background-color: #cc0000;
+        } */
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            form {
+                padding: 15px 20px;
+            }
+
+            h1 {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div>
+        <h1>Download YouTube Videos</h1>
+        <form action="" method="post"> 
+            {% csrf_token %} 
+            
+            <label for="link">Enter URL:</label> 
+            <input type="text" id="link" name="link" placeholder="Paste the YouTube URL"><br><br> 
+            <input type="submit" value="Download"> 
+        </form>
+        {% if video_details %}
+        <div class="video-preview" id="videoPreview">
+            <h2>Video Preview</h2>
+            <img src="{{ video_details.thumbnail_url }}" alt="Video Thumbnail">
+            <p><strong>Title:</strong> {{ video_details.title }}</p>
+            <p><strong>Channel:</strong> {{ video_details.channel_name }}</p>
+            <p><strong>Duration:</strong> {{ video_details.duration }} seconds</p>
+        </div>
+        {% endif %}
+    </div>
+</body>
+</html> -->
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>YouTube Downloader</title>
+    <style>
+        /* General Styles */
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background: url('https://upload.wikimedia.org/wikipedia/commons/thumb/4/42/YouTube_icon_%282013-2017%29.png/512px-YouTube_icon_%282013-2017%29.png') no-repeat center center fixed;
+            background-size: cover;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 2.5rem;
+            color: white;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.6);
+        }
+
+        form {
+            background: rgba(255, 255, 255, 0.9);
+            padding: 20px 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            width: 100%;
+            max-width: 400px;
+        }
+
+        label {
+            font-size: 1rem;
+            color: #333;
+            margin-bottom: 8px;
+            display: inline-block;
+        }
+
+        input[type="text"] {
+            width: calc(100% - 20px);
+            padding: 10px;
+            font-size: 1rem;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+
+        input[type="submit"] {
+            background-color: #ff0000;
+            color: white;
+            font-size: 1rem;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 100%;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #cc0000;
+        }
+
+        .video-preview {
+            margin-top: 20px;
+            display: none;
+            text-align: center;
+        }
+
+        .video-preview img {
+            max-width: 100%;
+            border-radius: 10px;
+        }
+
+        .video-preview p {
+            margin: 10px 0;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            form {
+                padding: 15px 20px;
+            }
+
+            h1 {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div>
+        <h1>Download YouTube Videos</h1>
+        <form id="videoForm" action="#" method="post">
+            {% csrf_token %}
+            <label for="link">Enter URL:</label>
+            <input type="text" id="link" name="link" placeholder="Paste the YouTube URL"><br><br>
+            <input type="submit" value="Get Video Details">
+            
+        </form>
+        <form action="" method="post"> 
+            {% csrf_token %} 
+            
+            <label for="link">Enter URL:</label> 
+            <input type="text" id="link" name="link" placeholder="Paste the YouTube URL"><br><br> 
+            <input type="submit" value="Download"> 
+        </form>
+       
+        <div class="video-preview" id="videoPreview">
+            <h2>Video Preview</h2>
+            <img id="videoThumbnail" src="" alt="Video Thumbnail">
+            <p><strong>Title:</strong> <span id="videoTitle"></span></p>
+            <p><strong>Channel:</strong> <span id="videoChannel"></span></p>
+            <p><strong>Duration:</strong> <span id="videoDuration"></span> seconds</p>
+            <button id="downloadButton">Download Video</button>
+        </div>
+    </div>
+
+    <script>
+        // Get CSRF token from the cookie or the HTML
+        function getCsrfToken() {
+            var csrfToken = null;
+            var csrfCookie = document.cookie.split(';').find(row => row.startsWith('csrftoken='));
+            if (csrfCookie) {
+                csrfToken = csrfCookie.split('=')[1];
+            }
+            return csrfToken;
+        }
+
+        // Handle form submission via AJAX
+        document.getElementById('videoForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            var link = document.getElementById('link').value;
+
+            var csrfToken = getCsrfToken();  // Get the CSRF token
+
+            // Send AJAX request to get video details
+            var xhr = new XMLHttpRequest();
+            xhr.open('POST', '', true);
+            xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+            xhr.setRequestHeader('X-CSRFToken', csrfToken);  // Add CSRF token to request header
+
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState == 4 && xhr.status == 200) {
+                    var response = JSON.parse(xhr.responseText);
+
+                    // If there is an error, display it
+                    if (response.error) {
+                        alert(response.error);
+                    } else {
+                        // Update the video details on the page
+                        document.getElementById('videoThumbnail').src = response.video_details.thumbnail_url;
+                        document.getElementById('videoTitle').textContent = response.video_details.title;
+                        document.getElementById('videoChannel').textContent = response.video_details.channel_name;
+                        document.getElementById('videoDuration').textContent = response.video_details.duration;
+
+                        // Show video details section
+                        document.getElementById('videoPreview').style.display = 'block';
+
+                        // Enable download button
+                        document.getElementById('downloadButton').onclick = function() {
+                            // Trigger the download
+                            window.location.href = response.video_details.download_url;
+                        };
+                    }
+                }
+            };
+
+            // Send the URL as a POST request with CSRF token
+            xhr.send('link=' + encodeURIComponent(link));
+        });
+    </script>
+</body>
+</html> -->
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>YouTube Downloader</title>
+    <style>
+        /* General Styles */
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background: url('https://upload.wikimedia.org/wikipedia/commons/thumb/4/42/YouTube_icon_%282013-2017%29.png/512px-YouTube_icon_%282013-2017%29.png') no-repeat center center fixed;
+            background-size: cover;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 2.5rem;
+            color: white;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.6);
+        }
+
+        form {
+            background: rgba(255, 255, 255, 0.9);
+            padding: 20px 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            width: 100%;
+            max-width: 400px;
+        }
+
+        label {
+            font-size: 1rem;
+            color: #333;
+            margin-bottom: 8px;
+            display: inline-block;
+        }
+
+        input[type="text"] {
+            width: calc(100% - 20px);
+            padding: 10px;
+            font-size: 1rem;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+
+        input[type="submit"] {
+            background-color: #ff0000;
+            color: white;
+            font-size: 1rem;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 100%;
+            
+        }
+
+        input[type="submit"]:hover {
+            background-color: #cc0000;
+        }
+
+        .video-preview {
+            margin-top: 20px;
+            display: none;
+            text-align: center;
+        }
+
+        .video-preview img {
+            max-width: 100%;
+            border-radius: 10px;
+        }
+
+        .video-preview p {
+            margin: 10px 0;
+        }
+        .toggle-button {
+            margin-top: 20px;
+            background-color: #007bff;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .toggle-button:hover {
+            background-color: #0056b3;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            form {
+                padding: 15px 20px;
+            }
+
+            h1 {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div>
+        <h1>Download YouTube Videos</h1>
+        <form id="videoForm" action="#" method="post">
+            {% csrf_token %}
+            <label for="link">Enter URL:</label>
+            <input type="text" id="link" name="link" placeholder="Paste the YouTube URL"><br><br>
+            <input type="submit" value="Download">
+        </form>
+        <!-- Video Preview Section -->
+        <div class="video-preview" id="videoPreview">
+            <h2>Video Preview</h2>
+            <img id="videoThumbnail" src="" alt="Video Thumbnail">
+            <p><strong>Title:</strong> <span id="videoTitle"></span></p>
+            <p><strong>Channel:</strong> <span id="videoChannel"></span></p>
+            <p><strong>Duration:</strong> <span id="videoDuration"></span> seconds</p>
+            <button class="toggle-button" id="refreshButton">Back to Form</button>
+            <!-- <button id="downloadButton">Download Video</button> -->
+        </div>
+    </div>
+
+    <script>
+        // Get CSRF token from the cookie or the HTML
+        function getCsrfToken() {
+            var csrfToken = null;
+            var csrfCookie = document.cookie.split(';').find(row => row.startsWith('csrftoken='));
+            if (csrfCookie) {
+                csrfToken = csrfCookie.split('=')[1];
+            }
+            return csrfToken;
+        }
+
+        // Handle form submission via AJAX
+        document.getElementById('videoForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            
+            var link = document.getElementById('link').value;
+            
+            var csrfToken = getCsrfToken();  // Get the CSRF token
+
+            // Send AJAX request to get video details
+            var xhr = new XMLHttpRequest();
+            xhr.open('POST', '', true);
+            xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+            xhr.setRequestHeader('X-CSRFToken', csrfToken);  // Add CSRF token to request header
+
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState == 4 && xhr.status == 200) {
+                    var response = JSON.parse(xhr.responseText);
+
+                    // If there is an error, display it
+                    if (response.error) {
+                        alert(response.error);
+                    } else {
+                        // Update the video details on the page
+                        document.getElementById('videoThumbnail').src = response.video_details.thumbnail_url;
+                        document.getElementById('videoTitle').textContent = response.video_details.title;
+                        document.getElementById('videoChannel').textContent = response.video_details.channel_name;
+                        document.getElementById('videoDuration').textContent = response.video_details.duration;
+
+                        // Show video details section
+                        
+                        document.getElementById('videoPreview').style.display = 'block'; // or another option
+                        document.getElementById('videoForm').style.display = 'none';
+
+                        // Enable download button with the correct download URL
+                        // document.getElementById('submit').onclick = function() {
+                        //     // Trigger the download by redirecting to the correct URL
+                        //     style.display = 'hidden';
+                        // };
+                    }
+                }
+            };
+
+            // Send the URL as a POST request with CSRF token
+            xhr.send('link=' + encodeURIComponent(link));
+        });
+        document.getElementById('refreshButton').addEventListener('click', function() {
+            // Hide the preview and show the form
+            document.getElementById('videoPreview').style.display = 'none';
+            document.getElementById('videoForm').style.display = 'block';
+            location.reload();
+        });
+    </script>
+</body>
+</html>
